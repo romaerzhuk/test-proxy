@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: proxy-app
+
+proxy:
+  rules:
+    - prefix: /habr.com/
+      target: https://habr.com/
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  springdoc:
+    swagger-ui:
+      url: /openapi.yaml
+      path: /swagger-ui.html
