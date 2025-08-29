@@ -1,16 +1,19 @@
 spring:
   application:
-    name: proxy-app
+    name: proxy-bff
 
-proxy:
-  rules:
-    - prefix: /habr.com/
-      target: https://habr.com/
+proxy.rules:
+  - prefix: /api/test
+    target: http://localhost:8080/test
 
 springdoc:
   api-docs:
     path: /api-docs
-  springdoc:
-    swagger-ui:
-      url: /openapi.yaml
-      path: /swagger-ui.html
+  swagger-ui:
+    url: /swagger/openapi.yaml
+    path: /swagger-ui.html
+    config-url: /api-docs/swagger-config
+
+logging:
+  level:
+    test: DEBUG

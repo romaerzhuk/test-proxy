@@ -5,11 +5,11 @@ info:
 servers:
   - url: http://localhost:8080
 paths:
-  /api/users/{id}:
+  /api/test/{name}:
     get:
-      summary: Get user by ID
+      summary: Proxy Hello world by name
       parameters:
-        - name: id
+        - name: name
           in: path
           required: true
           schema:
@@ -17,11 +17,11 @@ paths:
       responses:
         '200':
           description: Success
-  /api/orders/{id}:
+  /test/{name}:
     get:
-      summary: Get order by ID
+      summary: Hello world by name
       parameters:
-        - name: id
+        - name: name
           in: path
           required: true
           schema:
