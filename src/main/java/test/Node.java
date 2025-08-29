@@ -19,7 +19,7 @@ public class Node {
 
     @Override
     public String toString() {
-        return "rule=" + rule + ", children=" + children.keySet();
+        return "rule=" + rule + ", children=" + (children == null ? null : children.keySet());
     }
 
     public void insert(List<ProxyRule> rules) {
@@ -61,7 +61,7 @@ public class Node {
             if (!"/".equals(element)) {
                 node = node.find(element);
                 if (node == null) {
-                    return null;
+                    return rule;
                 }
             }
             if (node.rule != null) {

@@ -102,8 +102,8 @@ class NodeTest {
     }
 
     @ParameterizedTest
-    @ValueSource(booleans = {false, true})
-    void get(boolean found) {
+    @ValueSource(ints = {-2, -1, 0, 1, 2})
+    void get(int index) {
         String[] prefix = {"/abc/def", "abc/ghi", "abc/jk/lm"};
         URI[] uri = Stream.generate(() -> URI.create("https://" + uid())).limit(prefix.length).toArray(URI[]::new);
         ProxyRule[] rule = IntStream.range(0, uri.length)
@@ -114,13 +114,18 @@ class NodeTest {
                     return r;
                 }).toArray(ProxyRule[]::new);
         subj.insert(List.of(rule));
-        int index = uid(prefix.length);
-        List<String> path = Stream.of(prefix[index].split("/"))
-                .filter(s -> !s.isEmpty())
-                .toList();
+        List<String> path = switch (index) {
+            case -2 -> List.of("any", uidS());
+            case -1 -> List.of("abc", "jk", "/");
+            case 1 -> List.of("/", "abc", "/", "ghi", "/", uidS(), "/");
+            default -> Stream.of(prefix[index].split("/"))
+                    .filter(s -> !s.isEmpty())
+                    .toList();
+        };
+        ProxyRule expected = index < 0 ? null : rule[index];
 
-        ProxyRule actual = subj.get(found ? path.stream() : Stream.of("abc", "def", uidS()));
+        ProxyRule actual = subj.get(path.stream());
 
-        assertThat(actual).isSameAs(found ? rule[index] : null);
+        assertThat(actual).isSameAs(expected);
     }
 }
